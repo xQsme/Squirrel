@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $banner=true;
+    return view('welcome', compact('banner'));
 });
 
 Auth::routes();
