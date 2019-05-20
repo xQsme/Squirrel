@@ -22,6 +22,8 @@ class ApiController extends Controller
                 'user_id' => $user->id,
                 'token' => $user->createToken('MyApp')->accessToken
             ];
+            $user->logins[0]->source='App';
+            $user->logins[0]->save();
             return response()->json($response, 200);
         }
         else if (Auth::attempt(['name' => request('email'), 'password' => request('password')]))
@@ -35,6 +37,8 @@ class ApiController extends Controller
                 'user_id' => $user->id,
                 'token' => $user->createToken('MyApp')->accessToken
             ];
+            $user->logins[0]->source='App';
+            $user->logins[0]->save();
             return response()->json($response, 200);
         }
         else
@@ -45,6 +49,32 @@ class ApiController extends Controller
             ];
             return response()->json(['error' => $response], 401);
         }
+    }
+
+    public function logout()
+    {
+        Auth::guard('api')->user()->token()->revoke();
+        Auth::guard('api')->user()->token()->delete();
+
+        $response = [
+            'status' => 'ok',
+            'message' => 'logout success'
+        ];
+
+        return response()->json($response, 200);
+    }
+
+    public function dump(Request $request)
+    {
+        $response = Auth::user()->logins;
+
+        foreach($response as $login)
+        {
+            $login->date = $login->created_at->format('d/m/Y');
+            $login->time = $login->created_at->format('H:i:s');
+        }
+
+        return response()->json($response);
     }
 
 }

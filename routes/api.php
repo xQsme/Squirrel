@@ -18,3 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('login', 'ApiController@login');
+
+Route::group(['middleware' => 'auth:api'], function () {
+
+    Route::get('logout', 'ApiController@logout');
+    Route::get('dump', 'ApiController@dump');
+
+});
