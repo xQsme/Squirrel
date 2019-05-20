@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -76,5 +77,30 @@ class ApiController extends Controller
 
         return response()->json($response);
     }
+
+    function register(Request $request)
+{
+    $valid = validator($request->only('email', 'name', 'password'), [
+        'name' => 'required|string|max:255|unique:users',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8',
+    ]);
+
+    if ($valid->fails()) {
+        $jsonError=response()->json($valid->errors()->all(), 400);
+        return $jsonError;
+    }
+
+    $data = request()->only('email','name','password');
+
+    $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => bcrypt($data['password'])
+    ]);
+
+    $jsonSuccess=response()->json('Registered', 200);
+    return $jsonSuccess;
+}
 
 }
