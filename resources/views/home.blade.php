@@ -11,37 +11,21 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Role</th>
-                                <th scope="col">Name</th>
+                                <th scope="col">Source</th>
+                                <th scope="col">IP</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Time</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>The Brains</td>
-                                <td>Mac</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>The Looks</td>
-                                <td>Dennis</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>The Muscle</td>
-                                <td>Frank</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>The Useless Chick</td>
-                                <td>Dee</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>WILDCARD!</td>
-                                <td>Charlie</td>
-                            </tr>
+                            @foreach(\Auth::user()->logins as $login)
+                                <tr>
+                                    <td>{{$login->source}}</td>
+                                    <td>{{$login->ip}}</td>
+                                    <td>{{$login->created_at->format('d/m/Y')}}</td>
+                                    <td>{{$login->created_at->format('H:i:s')}}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
