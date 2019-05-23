@@ -7,7 +7,10 @@
             <div class="card">
                 <div class="card-header">Settings</div>
                 <div class="card-body">
-                    <input type="checkbox" name="google" id="google" @if(\Auth::user()->google2fa_secret != "") checked @endif>Google Authenticator<br>
+                    <input type="checkbox" id="google" @if(\Auth::user()->google_code != "") checked @endif>Google Authenticator<br>
+                    <input type="checkbox" id="fido" @if(\Auth::user()->fido_code != "") checked @endif>FIDO Authenticator<br>
+                    <input type="checkbox" id="email" @if(\Auth::user()->email_code != "") checked @endif>E-Mail Code<br>
+                    <input type="checkbox" id="sms" @if(\Auth::user()->sms_code != "") checked @endif>SMS Code<br>
                 </div>
             </div>
         </div>
@@ -18,15 +21,48 @@
 <script>
     window.onload=function()
     {
-        let checkbox = document.getElementById("google");
-        checkbox.onclick = () => {
-            if(checkbox.checked)
+        let google = document.getElementById("google");
+        google.onclick = () => {
+            if(google.checked)
             {
-                window.location = window.location.href.replace("settings", "activate");
+                window.location = window.location.href.replace("settings", "google-activate");
             }
             else
             {
-                window.location = window.location.href.replace("settings", "deactivate");
+                window.location = window.location.href.replace("settings", "google-deactivate");
+            }
+        };
+        let fido = document.getElementById("fido");
+        fido.onclick = () => {
+            if(fido.checked)
+            {
+                window.location = window.location.href.replace("settings", "fido-activate");
+            }
+            else
+            {
+                window.location = window.location.href.replace("settings", "fido-deactivate");
+            }
+        };
+        let email = document.getElementById("email");
+        email.onclick = () => {
+            if(email.checked)
+            {
+                window.location = window.location.href.replace("settings", "email-activate");
+            }
+            else
+            {
+                window.location = window.location.href.replace("settings", "email-deactivate");
+            }
+        };
+        let sms = document.getElementById("sms");
+        sms.onclick = () => {
+            if(sms.checked)
+            {
+                window.location = window.location.href.replace("settings", "sms-activate");
+            }
+            else
+            {
+                window.location = window.location.href.replace("settings", "sms-deactivate");
             }
         };
     }

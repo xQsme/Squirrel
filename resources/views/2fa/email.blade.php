@@ -18,7 +18,7 @@
                         <img src="{{ $qrCode }}">
                     </div>
                     You must set up your Google Authenticator app before continuing.
-                    <form action="{{route('complete')}}" class="form-group form-inline" method="post" style>
+                    <form action="{{route('google-complete')}}" class="form-group form-inline" method="post" style>
                         {{csrf_field()}}
                         <input type="hidden" name="secret" value="{{$secret}}">
                         <input type="number" name="code" class="form-control col-md-5" placeholder="Authenticator Code">

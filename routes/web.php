@@ -20,6 +20,19 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/settings', 'UserController@settings')->name('settings');
-Route::get('/activate', 'GoogleController@activate')->name('activate');
-Route::post('/complete', 'GoogleController@complete')->name('complete');
-Route::get('/deactivate', 'GoogleController@deactivate')->name('deactivate');
+
+Route::get('/email-activate', 'EmailController@activate')->name('email-activate');
+Route::post('/email-complete', 'EmailController@complete')->name('email-complete');
+Route::get('/email-deactivate', 'EmailController@deactivate')->name('email-deactivate');
+
+Route::get('/fido-activate', 'FIDOController@activate')->name('fido-activate');
+Route::post('/fido-complete', 'FIDOController@complete')->name('fido-complete');
+Route::get('/fido-deactivate', 'FIDOController@deactivate')->name('fido-deactivate');
+
+Route::get('/google-activate', 'GoogleController@activate')->name('google-activate');
+Route::post('/google-complete', 'GoogleController@complete')->name('google-complete');
+Route::get('/google-deactivate', 'GoogleController@deactivate')->name('google-deactivate');
+
+Route::get('/sms-activate', 'SMSController@activate')->name('sms-activate');
+Route::post('/sms-complete', 'SMSController@complete')->name('sms-complete');
+Route::get('/sms-deactivate', 'SMSController@deactivate')->name('sms-deactivate');
