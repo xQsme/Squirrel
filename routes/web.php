@@ -19,3 +19,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/settings', 'UserController@settings')->name('settings');
+Route::get('/activate', 'GoogleController@activate')->name('activate');
+Route::post('/complete', 'GoogleController@complete')->name('complete');
+Route::get('/deactivate', 'GoogleController@deactivate')->name('deactivate');
