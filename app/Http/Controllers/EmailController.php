@@ -21,28 +21,30 @@ class EmailController extends Controller
     {
         $data['content'] = "Squirrel confirmation code:";
         $code = str_random(20);
+        $user = \Auth::user();
+        $user->email_temp_code = $code;
+        $user->save();
         $data['code'] = $code;
         \Mail::send(['text'=>'mail'], $data, function($message) {
             $message->to(\Auth::user()->email, \Auth::user()->name)->subject
                ('Squirrel E-Mail authentication confirmation');
             $message->from('SquirrelMCIF@gmail.com','Squirrel');
          });
-        return view('2fa.email-confirm', compact('code'));
+        return view('2fa.email-confirm');
     }
 
     public function complete(Request $request)
     {
-        if($request->secret == $request->code)
+        if(\Auth::user()->email_temp_code == $request->code)
         {
             $user = \Auth::user();
-            $user->email_code = $request->secret;
+            $user->email_code = $request->code;
             $user->save();
             $message = ['message_success' => 'E-Mail Authentication Set Up'];
             return redirect()->route('settings')->with($message);
         }
         $message = 'Wrong Code';
-        $code = $request->secret;
-        return view('2fa.email-confirm', compact('code', 'message'));
+        return view('2fa.email-confirm', compact('message'));
     }
 
     public function deactivate()
