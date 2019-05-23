@@ -15,7 +15,7 @@
                 <div class="card-body" style="text-align:center">
                     Set up your two factor authentication by scanning the barcode below.<br>Alternatively, you can use the code {{ $secret }}
                     <div>
-                        <img src="{{ $QR_Image }}">
+                        <img src="{{ $qrCode }}">
                     </div>
                     You must set up your Google Authenticator app before continuing.
                     <form action="{{route('complete')}}" class="form-group form-inline" method="post" style>

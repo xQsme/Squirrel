@@ -6,7 +6,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Settings</div>
-
                 <div class="card-body">
                     <input type="checkbox" name="google" id="google" @if(\Auth::user()->google2fa_secret != "") checked @endif>Google Authenticator<br>
                 </div>
