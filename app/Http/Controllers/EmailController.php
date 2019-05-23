@@ -13,10 +13,7 @@ class EmailController extends Controller
 
     public function activate()
     {
-        $ga = new GoogleAuthenticator();
-        $secret = $ga->createSecret();
-        $qrCode = $ga->getQRCodeGoogleUrl('Squirrel', $secret);
-        return view('google2fa.setup', compact('secret', 'qrCode'));
+        return view('2fa.email', compact('secret', 'qrCode'));
     }
 
     public function complete()
@@ -33,7 +30,7 @@ class EmailController extends Controller
         $secret = $request->secret;
         $qrCode = $ga->getQRCodeGoogleUrl('Squirrel', $secret);
         $message = 'Wrong One Time Code';
-        return view('google2fa.setup', compact('secret', 'qrCode', 'message'));
+        return view('2fa.email', compact('secret', 'qrCode', 'message'));
     }
 
     public function deactivate()

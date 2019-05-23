@@ -16,7 +16,7 @@ class SMSController extends Controller
         $ga = new GoogleAuthenticator();
         $secret = $ga->createSecret();
         $qrCode = $ga->getQRCodeGoogleUrl('Squirrel', $secret);
-        return view('google2fa.setup', compact('secret', 'qrCode'));
+        return view('2fa.sms', compact('secret', 'qrCode'));
     }
 
     public function complete()
@@ -33,7 +33,7 @@ class SMSController extends Controller
         $secret = $request->secret;
         $qrCode = $ga->getQRCodeGoogleUrl('Squirrel', $secret);
         $message = 'Wrong One Time Code';
-        return view('google2fa.setup', compact('secret', 'qrCode', 'message'));
+        return view('2fa.sms', compact('secret', 'qrCode', 'message'));
     }
 
     public function deactivate()

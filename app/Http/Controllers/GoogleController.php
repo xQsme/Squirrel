@@ -41,7 +41,7 @@ class GoogleController extends Controller
     public function deactivate()
     {
         $user = \Auth::user();
-        $user->google2fa_secret = "";
+        $user->google_code = "";
         $user->save();
         $message = ['message_success' => 'Google Authenticator Removed'];
         return redirect()->route('settings')->with($message);
