@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->text('fido_code')->nullable()->default(null);
             $table->text('sms_code')->nullable()->default(null);
             $table->text('email_code')->nullable()->default(null);
+            $table->text('email_temp_code')->nullable()->default(null);
 
         });
     }
