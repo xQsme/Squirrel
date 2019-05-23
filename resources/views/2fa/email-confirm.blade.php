@@ -13,8 +13,14 @@
             <div class="card">
                 <div class="card-header">Set up E-Mail Authentication</div>
                 <div class="card-body" style="text-align:center">
-                 To set up e-mail authentication press the button below.<br>
-                 <a href="{{ route('email-confirm') }}" type="button" class="btn btn-primary">Add E-Mail Authentication</a>
+                    Please type the code we sent you to {{\Auth::user()->email}} below:<br>
+                    <form action="{{route('email-complete')}}" class="form-group form-inline" method="post" style>
+                        {{csrf_field()}}
+                        <input type="hidden" name="secret" value="{{$code}}">
+                        <input type="text" name="code" class="form-control col-md-5">
+                        <div class="col-md-2"></div>
+                        <button type="submit" class="btn btn-primary col-md-5">Add E-Mail Authentication</button>
+                    </form>
                 </div>
             </div>
         </div>

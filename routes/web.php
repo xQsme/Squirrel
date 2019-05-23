@@ -22,6 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/settings', 'UserController@settings')->name('settings');
 
 Route::get('/email-activate', 'EmailController@activate')->name('email-activate');
+Route::get('/email-confirm', 'EmailController@confirm')->name('email-confirm');
 Route::post('/email-complete', 'EmailController@complete')->name('email-complete');
 Route::get('/email-deactivate', 'EmailController@deactivate')->name('email-deactivate');
 
