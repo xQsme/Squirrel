@@ -16,4 +16,10 @@ class SMSController extends Controller
         $message = ['message_error' => 'SMS service is paid ¯\_(ツ)_/¯'];
         return redirect()->back()->with($message);
     }
+
+    public function deactivate()
+    {
+        $message = ['message_error' => 'SMS service is paid ¯\_(ツ)_/¯'];
+        return redirect()->back()->with($message);
+    }
 }

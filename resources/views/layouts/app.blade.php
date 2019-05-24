@@ -18,7 +18,7 @@
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
-            <a class="navbar-brand" @guest href="{{ url('/') }} @else href="{{ url('/home') }} @endguest">
+            <a class="navbar-brand" href="{{ url('/') }}">
                 <img src="{{ asset('img/logo_circle.png') }}" style="max-width: 30px">
                 {{ config('app.name', 'Laravel') }}
             </a>
@@ -46,6 +46,7 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('home') }}">Dashboard</a>
                             <a class="dropdown-item" href="{{ route('settings') }}">Settings</a>
                             <a class="dropdown-item" href="{{ route('authenticated') }}">Authentication Status</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"

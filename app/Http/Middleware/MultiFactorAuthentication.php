@@ -20,27 +20,26 @@ class MultiFactorAuthentication
 
         if(!empty($user->google_code)){
             if(!$user->google_authenticated){
-                return abort(403);
+                return redirect()->route('multi-factor');
             }
         }
 
         if(!empty($user->fido_code)){
             if(!$user->fido_authenticated){
-                return abort(403);
+                return redirect()->route('multi-factor');
             }
         }
         if(!empty($user->email_code)){
             if(!$user->email_authenticated){
-                return abort(403);
+                return redirect()->route('multi-factor');
             }
         }
         if(!empty($user->sms_code)){
             if(!$user->sms_authenticated){
-                return abort(403);
+                return redirect()->route('multi-factor');
             }
         }
 
         return $next($request);    
-        
     }
 }

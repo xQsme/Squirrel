@@ -39,6 +39,7 @@ class EmailController extends Controller
         {
             $user = \Auth::user();
             $user->email_code = \Hash::make($request->code);
+            $user->email_authenticated = true;
             $user->save();
             $message = ['message_success' => 'E-Mail Authentication Set Up'];
             return redirect()->route('settings')->with($message);

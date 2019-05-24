@@ -28,6 +28,7 @@ class GoogleController extends Controller
         {
             $user = \Auth::user();
             $user->google_code = encrypt($request->secret);
+            $user->google_authenticated = true;
             $user->save();
             $message = ['message_success' => 'Google Authenticator Set Up'];
             return redirect()->route('settings')->with($message);
