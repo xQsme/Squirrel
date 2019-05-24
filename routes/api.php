@@ -24,5 +24,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('logout', 'ApiController@logout');
     Route::get('dump', 'ApiController@dump');
+    Route::post('google', 'ApiController@google');
+    Route::post('email', 'ApiController@email');
+    Route::post('validateEmail', 'ApiController@validateEmail');
 
 });

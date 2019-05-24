@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Login;
+use App\Classes\GoogleAuthenticator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,8 +25,15 @@ class ApiController extends Controller
                 'user_id' => $user->id,
                 'token' => $user->createToken('MyApp')->accessToken
             ];
-            $user->logins[0]->source='App';
-            $user->logins[0]->save();
+            if($user->google_code != '' || $user->fido_code != '' || $user->email_code != '')
+            {
+                $user->logins[0]->delete();
+            }
+            else
+            {
+                $user->logins[0]->source='App';
+                $user->logins[0]->save();
+            }
             return response()->json($response, 200);
         }
         else if (Auth::attempt(['name' => request('email'), 'password' => request('password')]))
@@ -38,8 +47,15 @@ class ApiController extends Controller
                 'user_id' => $user->id,
                 'token' => $user->createToken('MyApp')->accessToken
             ];
-            $user->logins[0]->source='App';
-            $user->logins[0]->save();
+            if($user->google_code != '' || $user->fido_code != '' || $user->email_code != '')
+            {
+                $user->logins[0]->delete();
+            }
+            else
+            {
+                $user->logins[0]->source='App';
+                $user->logins[0]->save();
+            }
             return response()->json($response, 200);
         }
         else
@@ -65,14 +81,14 @@ class ApiController extends Controller
         return response()->json($response, 200);
     }
 
-    public function dump(Request $request)
+    public function dump()
     {
         $response['logins'] = Auth::user()->logins;
         
         $user = \Auth::user();
-        $response['auth']['google']=$user->google_code;
-        $response['auth']['fido']=$user->fido_code;
-        $response['auth']['email']=$user->email_code;
+        $response['auth']['google']=$user->google_code != '';
+        $response['auth']['fido']=$user->fido_code != '';
+        $response['auth']['email']=$user->email_code != '';
 
         foreach($response['logins'] as $login)
         {
@@ -84,28 +100,82 @@ class ApiController extends Controller
     }
 
     function register(Request $request)
-{
-    $valid = validator($request->only('email', 'name', 'password'), [
-        'name' => 'required|string|max:255|unique:users',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:8',
-    ]);
+    {
+        $valid = validator($request->only('email', 'name', 'password'), [
+            'name' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+        ]);
 
-    if ($valid->fails()) {
-        $jsonError=response()->json($valid->errors()->all(), 400);
+        if ($valid->fails()) {
+            $jsonError=response()->json($valid->errors()->all(), 400);
+            return $jsonError;
+        }
+
+        $data = request()->only('email','name','password');
+
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password'])
+        ]);
+
+        $jsonSuccess=response()->json('Registered', 200);
+        return $jsonSuccess;
+    }
+
+    function google()
+    {
+        $ga = new GoogleAuthenticator();
+        $user = \Auth::user();
+        if($ga->verifyCode(\Auth::user()->google_code, request('code'), 2))
+        {
+            if($user->fido_code == '' && $user->email_code == '')
+            {
+                $login = new Login();
+                $login->user_id = $user->id;
+                $login->source="App";
+                $login->ip = \Request::ip();
+                $login->save();
+            }
+            $jsonSuccess=response()->json('Authenticated', 200);
+            return $jsonSuccess;
+        }
+        $jsonError=response()->json('Failed', 400);
         return $jsonError;
     }
 
-    $data = request()->only('email','name','password');
+    function email()
+    {
+        $data['content'] = "Squirrel confirmation code:";
+        $code = str_random(10);
+        $user = \Auth::user();
+        $user->email_code = $code;
+        $user->save();
+        $data['code'] = $code;
+        \Mail::send(['text'=>'mail'], $data, function($message) {
+            $message->to(\Auth::user()->email, \Auth::user()->name)->subject
+               ('Squirrel E-Mail authentication');
+            $message->from('SquirrelMCIF@gmail.com','Squirrel');
+         });
+        $jsonSuccess=response()->json($code, 200);
+        return $jsonSuccess;
+    }
 
-    $user = User::create([
-        'name' => $data['name'],
-        'email' => $data['email'],
-        'password' => bcrypt($data['password'])
-    ]);
-
-    $jsonSuccess=response()->json('Registered', 200);
-    return $jsonSuccess;
-}
+    function validateEmail()
+    {
+        if(request('code') == \Auth::user()->email_code)
+        {
+            $login = new Login();
+            $login->user_id = \Auth::user()->id;
+            $login->source="App";
+            $login->ip = \Request::ip();
+            $login->save();
+            $jsonSuccess=response()->json('Authenticated', 200);
+            return $jsonSuccess;
+        }
+        $jsonError=response()->json('Failed', 400);
+        return $jsonError;
+    }
 
 }

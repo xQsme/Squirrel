@@ -22,11 +22,11 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->text('google_code')->nullable()->default(null);
-            $table->text('fido_code')->nullable()->default(null);
-            $table->text('sms_code')->nullable()->default(null);
-            $table->text('email_code')->nullable()->default(null);
-            $table->text('email_temp_code')->nullable()->default(null);
+            $table->text('google_code')->default('');
+            $table->text('fido_code')->default('');
+            $table->text('sms_code')->default('');
+            $table->text('email_code')->default('');
+            $table->text('email_temp_code')->default('');
 
         });
     }
