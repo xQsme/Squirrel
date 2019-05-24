@@ -67,9 +67,14 @@ class ApiController extends Controller
 
     public function dump(Request $request)
     {
-        $response = Auth::user()->logins;
+        $response['logins'] = Auth::user()->logins;
+        
+        $user = \Auth::user();
+        $response['auth']['google']=$user->google_code;
+        $response['auth']['fido']=$user->fido_code;
+        $response['auth']['email']=$user->email_code;
 
-        foreach($response as $login)
+        foreach($response['logins'] as $login)
         {
             $login->date = $login->created_at->format('d/m/Y');
             $login->time = $login->created_at->format('H:i:s');
