@@ -128,7 +128,7 @@ class ApiController extends Controller
     {
         $ga = new GoogleAuthenticator();
         $user = \Auth::user();
-        if($ga->verifyCode(\Auth::user()->google_code, request('code'), 2))
+        if($ga->verifyCode(decrypt(\Auth::user()->google_code), request('code'), 2))
         {
             if($user->fido_code == '' && $user->email_code == '')
             {
@@ -150,7 +150,7 @@ class ApiController extends Controller
         $data['content'] = "Squirrel confirmation code:";
         $code = str_random(10);
         $user = \Auth::user();
-        $user->email_code = $code;
+        $user->email_code = \Hash::make($code);
         $user->save();
         $data['code'] = $code;
         \Mail::send(['text'=>'mail'], $data, function($message) {
@@ -164,7 +164,7 @@ class ApiController extends Controller
 
     function validateEmail()
     {
-        if(request('code') == \Auth::user()->email_code)
+        if(\Hash::check(request('code'), \Auth::user()->email_code))
         {
             $login = new Login();
             $login->user_id = \Auth::user()->id;

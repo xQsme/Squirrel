@@ -22,7 +22,7 @@ class EmailController extends Controller
         $data['content'] = "Squirrel confirmation code:";
         $code = str_random(20);
         $user = \Auth::user();
-        $user->email_temp_code = $code;
+        $user->email_temp_code = \Hash::make($code);
         $user->save();
         $data['code'] = $code;
         \Mail::send(['text'=>'mail'], $data, function($message) {
@@ -35,10 +35,10 @@ class EmailController extends Controller
 
     public function complete(Request $request)
     {
-        if(\Auth::user()->email_temp_code == $request->code)
+        if(\Hash::check($request->code, \Auth::user()->email_temp_code))
         {
             $user = \Auth::user();
-            $user->email_code = $request->code;
+            $user->email_code = \Hash::make($request->code);
             $user->save();
             $message = ['message_success' => 'E-Mail Authentication Set Up'];
             return redirect()->route('settings')->with($message);

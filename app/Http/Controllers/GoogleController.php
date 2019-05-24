@@ -27,7 +27,7 @@ class GoogleController extends Controller
         if($ga->verifyCode($request->secret, $request->code, 2))
         {
             $user = \Auth::user();
-            $user->google_code = $request->secret;
+            $user->google_code = encrypt($request->secret);
             $user->save();
             $message = ['message_success' => 'Google Authenticator Set Up'];
             return redirect()->route('settings')->with($message);
