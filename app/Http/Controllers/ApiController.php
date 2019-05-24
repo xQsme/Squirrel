@@ -16,14 +16,16 @@ class ApiController extends Controller
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')]))
         {
-            //Auth::guard('api')->user()->token()->revoke(); //revoke last token
             $user = Auth::user();
             $response = [
                 'status' => 'success',
                 'email' => $user->email,
                 'name' => $user->name,
                 'user_id' => $user->id,
-                'token' => $user->createToken('MyApp')->accessToken
+                'token' => $user->createToken('MyApp')->accessToken,
+                'google' => $user->google_code != '',
+                'fido' => $user->fido_code != '',
+                'email_code' => $user->email_code != ''
             ];
             if($user->google_code != '' || $user->fido_code != '' || $user->email_code != '')
             {
@@ -38,14 +40,16 @@ class ApiController extends Controller
         }
         else if (Auth::attempt(['name' => request('email'), 'password' => request('password')]))
         {
-            //Auth::guard('api')->user()->token()->revoke(); //revoke last token
             $user = Auth::user();
             $response = [
                 'status' => 'success',
                 'email' => $user->email,
                 'name' => $user->name,
                 'user_id' => $user->id,
-                'token' => $user->createToken('MyApp')->accessToken
+                'token' => $user->createToken('MyApp')->accessToken,
+                'google' => $user->google_code != '',
+                'fido' => $user->fido_code != '',
+                'email_code' => $user->email_code != ''
             ];
             if($user->google_code != '' || $user->fido_code != '' || $user->email_code != '')
             {
@@ -85,11 +89,6 @@ class ApiController extends Controller
     {
         $response['logins'] = Auth::user()->logins;
         
-        $user = \Auth::user();
-        $response['auth']['google']=$user->google_code != '';
-        $response['auth']['fido']=$user->fido_code != '';
-        $response['auth']['email']=$user->email_code != '';
-
         foreach($response['logins'] as $login)
         {
             $login->date = $login->created_at->format('d/m/Y');
