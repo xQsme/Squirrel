@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -49,4 +50,21 @@ class LoginController extends Controller
             'password' => $request->password,
         ];
     }
+
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+        $user->google_authenticated = false;
+        $user->fido_authenticated = false;
+        $user->sms_authenticated = false;
+        $user->email_authenticated = false;
+        $user->save();
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();       
+
+        return $this->loggedOut($request) ?: redirect('/');
+    }
+
 }
