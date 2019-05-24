@@ -35,3 +35,5 @@ Route::post('/google-complete', 'GoogleController@complete')->name('google-compl
 Route::get('/google-deactivate', 'GoogleController@deactivate')->name('google-deactivate');
 
 Route::get('/sms-activate', 'SMSController@activate')->name('sms-activate');
+
+Route::middleware('multi_factor_authentication')->get('/authenticated', 'HomeController@authenticated')->name('authenticated');
