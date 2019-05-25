@@ -20,6 +20,7 @@
                         <div class="col-md-2"></div>
                         <button type="submit" class="btn btn-primary col-md-5">Authenticate</button>
                     </form>
+                    <a href="{{ route('forgot-pin') }}">Forgot Pin? Authenticate Again</a>
                 </div>
             </div>
         </div>

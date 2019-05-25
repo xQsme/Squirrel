@@ -73,4 +73,16 @@ class MultiFactorController extends Controller
         return redirect()->route('settings')->with($message);
     }
 
+    public function forgotPin()
+    {
+        $user = \Auth::user();
+        $user->session=\Session::getId();
+        $user->google_authenticated = false;
+        $user->fido_authenticated = false;
+        $user->sms_authenticated = false;
+        $user->email_authenticated = false;
+        $user->save();
+        return redirect()->route('home');
+    }
+
 }
