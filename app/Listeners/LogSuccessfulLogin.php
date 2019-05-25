@@ -27,12 +27,15 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event)
     {
-        if($event->user->google_code == '' && $event->user->fido_code == '' && $event->user->email_code == '')
+        if(!\Auth::viaRemember())
         {
-            $login = new Log();
-            $login->user_id = $event->user->id;
-            $login->ip = \Request::ip();
-            $login->save();
+            if($event->user->google_code == '' && $event->user->fido_code == '' && $event->user->email_code == '')
+            {
+                $login = new Log();
+                $login->user_id = $event->user->id;
+                $login->ip = \Request::ip();
+                $login->save();
+            }
         }
     }
 }

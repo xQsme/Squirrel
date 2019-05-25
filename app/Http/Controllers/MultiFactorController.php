@@ -37,18 +37,10 @@ class MultiFactorController extends Controller
                 return view('auth.sms');
             }
         }
-        if($user->ask_pin){
+        if($user->session != \Session::getId()){
             return view('auth.pin');
         }
         return redirect()->route('home');
-    }
-
-    public function askPin()
-    {
-        $user = \Auth::user();
-        $user->ask_pin = true;
-        $user->save();
-        return;
     }
 
     public function validatePin(Request $request)
@@ -56,10 +48,29 @@ class MultiFactorController extends Controller
         $user = \Auth::user();
         if(\Hash::check($request->code, \Auth::user()->pin))
         {
-            $user->ask_pin=false;
+            $user->session=\Session::getId();
             $user->save();
         }
         return redirect()->route('home');
+    }
+
+    public function changePin()
+    {
+        return view('pin');
+    }
+
+    public function savePin(Request $request)
+    {
+        if(strlen($request->pin) < 4 || strlen($request->pin) > 6)
+        {
+            $message = ['message_error' => 'Pin must be between 4 and 6 characters'];
+            return redirect()->back()->with($message);
+        }
+        $user = \Auth::user();
+        $user->pin = \Hash::make($request->pin);
+        $user->save();
+        $message = ['message_success' => 'Pin Changed'];
+        return redirect()->route('settings')->with($message);
     }
 
 }

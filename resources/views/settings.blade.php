@@ -11,6 +11,7 @@
                     <input type="checkbox" id="fido" @if(\Auth::user()->fido_code != "") checked @endif>FIDO Authenticator<br>
                     <input type="checkbox" id="email" @if(\Auth::user()->email_code != "") checked @endif>E-Mail Code<br>
                     <input type="checkbox" id="sms" @if(\Auth::user()->sms_code != "") checked @endif>SMS Code<br>
+                    <a href="{{ route('change-pin') }}">Change Pin</a>
                 </div>
             </div>
         </div>

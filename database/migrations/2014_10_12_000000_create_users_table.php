@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             //$table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('session')->default('');
             $table->rememberToken();
             $table->timestamps();
 
@@ -36,7 +37,6 @@ class CreateUsersTable extends Migration
             $table->boolean('email_authenticated')->default(false);
 
             $table->string('pin')->default('');
-            $table->boolean('ask_pin')->default(false);
         });
     }
 

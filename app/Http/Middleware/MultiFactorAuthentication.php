@@ -40,7 +40,7 @@ class MultiFactorAuthentication
             }
         }
 
-        if($user->ask_pin){
+        if($user->session != \Session::getId()){
             return redirect()->route('multi-factor');
         }
 
