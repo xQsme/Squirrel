@@ -75,5 +75,11 @@
 </div>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+<script>
+    window.addEventListener("beforeunload", () =>{
+        fetch(window.location.origin + "/askPin").then(()=>{
+        });
+    });
+</script>
 </body>
 </html>

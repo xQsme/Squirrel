@@ -40,6 +40,10 @@ class MultiFactorAuthentication
             }
         }
 
+        if($user->ask_pin){
+            return redirect()->route('multi-factor');
+        }
+
         return $next($request);    
     }
 }

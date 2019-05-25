@@ -29,7 +29,7 @@
 <script>
     function sendMail()
     {
-        fetch(window.location.href.split("multi-factor")[0] + "email").then(()=>{
+        fetch(window.location.origin +  "/email").then(()=>{
             alert("Email Sent");
         });
     }

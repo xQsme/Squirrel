@@ -37,6 +37,28 @@ class MultiFactorController extends Controller
                 return view('auth.sms');
             }
         }
+        if($user->ask_pin){
+            return view('auth.pin');
+        }
+        return redirect()->route('home');
+    }
+
+    public function askPin()
+    {
+        $user = \Auth::user();
+        $user->ask_pin = true;
+        $user->save();
+        return;
+    }
+
+    public function validatePin(Request $request)
+    {
+        $user = \Auth::user();
+        if(\Hash::check($request->code, \Auth::user()->pin))
+        {
+            $user->ask_pin=false;
+            $user->save();
+        }
         return redirect()->route('home');
     }
 

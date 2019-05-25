@@ -25,44 +25,44 @@
         google.onclick = () => {
             if(google.checked)
             {
-                window.location = window.location.href.replace("settings", "google-activate");
+                window.location = window.location.origin +  "/google-activate";
             }
             else
             {
-                window.location = window.location.href.replace("settings", "google-deactivate");
+                window.location = window.location.origin +  "/google-deactivate";
             }
         };
         let fido = document.getElementById("fido");
         fido.onclick = () => {
             if(fido.checked)
             {
-                window.location = window.location.href.replace("settings", "fido-activate");
+                window.location = window.location.origin +  "/fido-activate";
             }
             else
             {
-                window.location = window.location.href.replace("settings", "fido-deactivate");
+                window.location = window.location.origin +  "/fido-deactivate";
             }
         };
         let email = document.getElementById("email");
         email.onclick = () => {
             if(email.checked)
             {
-                window.location = window.location.href.replace("settings", "email-activate");
+                window.location = window.location.origin +  "/email-activate";
             }
             else
             {
-                window.location = window.location.href.replace("settings", "email-deactivate");
+                window.location = window.location.origin +  "/email-deactivate";
             }
         };
         let sms = document.getElementById("sms");
         sms.onclick = () => {
             if(sms.checked)
             {
-                window.location = window.location.href.replace("settings", "sms-activate");
+                window.location = window.location.origin +  "/settings", "sms-activate";
             }
             else
             {
-                window.location = window.location.href.replace("settings", "sms-deactivate");
+                window.location = window.location.origin +  "/sms-deactivate";
             }
         };
     }

@@ -19,6 +19,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/multi-factor', 'MultiFactorController@index')->name('multi-factor');
+Route::get('/askPin', 'MultiFactorController@askPin')->name('askpin');
 
 Route::middleware('multi_factor_authentication')->get('/home', 'HomeController@index')->name('home');
 Route::middleware('multi_factor_authentication')->get('/settings', 'UserController@settings')->name('settings');
