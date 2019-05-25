@@ -9,7 +9,7 @@
 @endif
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Set up Google Authenticator</div>
                 <div class="card-body" style="text-align:center">
@@ -23,7 +23,7 @@
                         <input type="hidden" name="secret" value="{{$secret}}">
                         <input type="number" name="code" class="form-control col-md-5" placeholder="Authenticator Code">
                         <div class="col-md-2"></div>
-                        <button type="submit" class="btn-primary col-md-5">Verify Authenticator</button>
+                        <button type="submit" class="btn btn-primary col-md-5">Verify Authenticator</button>
                     </form>
                 </div>
             </div>

@@ -27,6 +27,8 @@ Route::middleware('multi_factor_authentication')->get('/email-activate', 'EmailC
 Route::middleware('multi_factor_authentication')->get('/email-confirm', 'EmailController@confirm')->name('email-confirm');
 Route::middleware('multi_factor_authentication')->post('/email-complete', 'EmailController@complete')->name('email-complete');
 Route::middleware('multi_factor_authentication')->get('/email-deactivate', 'EmailController@deactivate')->name('email-deactivate');
+Route::get('/email', 'EmailController@email')->name('email');
+Route::post('/email-authenticate', 'EmailController@authenticate')->name('email-authenticate');
 
 Route::middleware('multi_factor_authentication')->get('/fido-activate', 'FIDOController@activate')->name('fido-activate');
 Route::middleware('multi_factor_authentication')->post('/fido-complete', 'FIDOController@complete')->name('fido-complete');
@@ -35,6 +37,7 @@ Route::middleware('multi_factor_authentication')->get('/fido-deactivate', 'FIDOC
 Route::middleware('multi_factor_authentication')->get('/google-activate', 'GoogleController@activate')->name('google-activate');
 Route::middleware('multi_factor_authentication')->post('/google-complete', 'GoogleController@complete')->name('google-complete');
 Route::middleware('multi_factor_authentication')->get('/google-deactivate', 'GoogleController@deactivate')->name('google-deactivate');
+Route::post('/google-authenticate', 'GoogleController@authenticate')->name('google-authenticate');
 
 Route::middleware('multi_factor_authentication')->get('/sms-activate', 'SMSController@activate')->name('sms-activate');
 Route::middleware('multi_factor_authentication')->get('/sms-deactivate', 'SMSController@deactivate')->name('sms-deactivate');

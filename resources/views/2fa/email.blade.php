@@ -9,7 +9,7 @@
 @endif
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Set up E-Mail Authentication</div>
                 <div class="card-body" style="text-align:center">

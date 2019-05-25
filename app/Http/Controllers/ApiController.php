@@ -27,15 +27,6 @@ class ApiController extends Controller
                 'fido' => $user->fido_code != '',
                 'email_code' => $user->email_code != ''
             ];
-            if($user->google_code != '' || $user->fido_code != '' || $user->email_code != '')
-            {
-                $user->logins[0]->delete();
-            }
-            else
-            {
-                $user->logins[0]->source='App';
-                $user->logins[0]->save();
-            }
             return response()->json($response, 200);
         }
         else if (Auth::attempt(['name' => request('email'), 'password' => request('password')]))
@@ -51,15 +42,6 @@ class ApiController extends Controller
                 'fido' => $user->fido_code != '',
                 'email_code' => $user->email_code != ''
             ];
-            if($user->google_code != '' || $user->fido_code != '' || $user->email_code != '')
-            {
-                $user->logins[0]->delete();
-            }
-            else
-            {
-                $user->logins[0]->source='App';
-                $user->logins[0]->save();
-            }
             return response()->json($response, 200);
         }
         else

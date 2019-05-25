@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Login;
 use App\Classes\GoogleAuthenticator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -46,5 +47,24 @@ class GoogleController extends Controller
         $user->save();
         $message = ['message_success' => 'Google Authenticator Removed'];
         return redirect()->route('settings')->with($message);
+    }
+
+    function authenticate(Request $request)
+    {
+        $ga = new GoogleAuthenticator();
+        $user = \Auth::user();
+        if($ga->verifyCode(decrypt(\Auth::user()->google_code), $request->code, 2))
+        {
+            if($user->fido_code == '' && $user->email_code == '')
+            {
+                $login = new Login();
+                $login->user_id = $user->id;
+                $login->ip = \Request::ip();
+                $login->save();
+            }
+            $user->google_authenticated=true;
+            $user->save();
+        }
+        return redirect()->route('home');
     }
 }
