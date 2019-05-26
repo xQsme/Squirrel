@@ -1,5 +1,12 @@
 @extends('layouts.general')
 
 @section('my-content')
-    <H1 style="text-align:center">SQUIRREL FTW</H1>
+<div style="text-align: center" class="col-md-12">
+    <p style="font-size: 18px; margin-bottom: -10px">While we wait for <a href="https://www.grc.com/sqrl/sqrl.htm">SQRL</a> to release the 1.0 version, we've implemented a website and a <a href="https://play.google.com/store">mobile app</a> with different authentication factors to better understand how to achieve secure authentication.</p>
+    <img src="./img/auth.png" style="width: 25%">
+    <img src="./img/fido.png" style="width: 25%">
+    <img src="./img/mail.png" style="width: 25%">
+    <p style="font-size: 18px; margin-top: -5px">So far we've implemented authenticator support, we're working on FIDO support, and we also have e-mail authentication.</p>
+    <p style="font-size: 18px; margin-top: -16px">Feel free to register and try out our website and app, we have taken every measure we could to ensure the user's security.</p>
+</div>
 @endsection
