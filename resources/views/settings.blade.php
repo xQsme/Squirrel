@@ -59,7 +59,7 @@
         sms.onclick = () => {
             if(sms.checked)
             {
-                window.location = window.location.origin +  "/settings", "sms-activate";
+                window.location = window.location.origin +  "/sms-activate";
             }
             else
             {

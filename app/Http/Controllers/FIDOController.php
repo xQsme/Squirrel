@@ -13,10 +13,7 @@ class FIDOController extends Controller
 
     public function activate()
     {
-        $ga = new GoogleAuthenticator();
-        $secret = $ga->createSecret();
-        $qrCode = $ga->getQRCodeGoogleUrl('Squirrel', $secret);
-        return view('2fa.fido', compact('secret', 'qrCode'));
+        return view('2fa.fido');
     }
 
     public function complete()

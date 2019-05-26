@@ -29,7 +29,7 @@ Route::middleware('multi_factor_authentication')->get('/home', 'HomeController@i
 Route::middleware('multi_factor_authentication')->get('/settings', 'UserController@settings')->name('settings');
 
 Route::middleware('multi_factor_authentication')->get('/email-activate', 'EmailController@activate')->name('email-activate');
-Route::middleware('multi_factor_authentication')->get('/email-confirm', 'EmailController@confirm')->name('email-confirm');
+Route::middleware('multi_factor_authentication')->get('/email-send', 'EmailController@send')->name('email-send');
 Route::middleware('multi_factor_authentication')->post('/email-complete', 'EmailController@complete')->name('email-complete');
 Route::middleware('multi_factor_authentication')->get('/email-deactivate', 'EmailController@deactivate')->name('email-deactivate');
 Route::get('/email', 'EmailController@email')->name('email');

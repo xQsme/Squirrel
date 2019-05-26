@@ -18,7 +18,7 @@ class EmailController extends Controller
         return view('2fa.email');
     }
 
-    public function confirm()
+    public function send()
     {
         $data['content'] = "Squirrel confirmation code:";
         $code = str_random(20);
@@ -31,7 +31,7 @@ class EmailController extends Controller
                ('Squirrel E-Mail authentication confirmation');
             $message->from('SquirrelMCIF@gmail.com','Squirrel');
          });
-        return view('2fa.email-confirm');
+        return;
     }
 
     public function complete(Request $request)
