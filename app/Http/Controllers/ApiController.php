@@ -30,7 +30,7 @@ class ApiController extends Controller
             if($user->google_code == '' && $user->fido_code == '' && $user->email_code == '')
             {
                 $user->logins[0]->source="App";
-                $user->save();
+                $user->logins[0]->save();
             }
             return response()->json($response, 200);
         }
@@ -50,7 +50,7 @@ class ApiController extends Controller
             if($user->google_code == '' && $user->fido_code == '' && $user->email_code == '')
             {
                 $user->logins[0]->source="App";
-                $user->save();
+                $user->logins[0]->save();
             }
             return response()->json($response, 200);
         }
