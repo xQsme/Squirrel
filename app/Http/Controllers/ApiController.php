@@ -94,7 +94,7 @@ class ApiController extends Controller
             return $jsonError;
         }
 
-        $data = request()->only('email','name','password');
+        $data = request()->only('email','name','password', 'pin');
 
         $user = User::create([
             'name' => $data['name'],
