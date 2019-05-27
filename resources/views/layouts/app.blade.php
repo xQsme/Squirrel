@@ -75,30 +75,5 @@
 </div>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
-<script>
-    window.onload=function()
-    {
-        replaceImage();
-    }
-    window.onresize = function(event)
-    {
-        replaceImage();
-    }
-    function replaceImage()
-    {
-        let image = document.getElementById("banner");
-        if(image != null)
-        {
-            if(window.innerWidth/window.innerHeight > 1.5)
-            {
-                image.src = "./img/banner-slim.jpg";
-            }
-            else
-            {
-                image.src = "./img/banner.jpg";
-            }
-        }
-    }
-</script>
 </body>
 </html>
