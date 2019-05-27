@@ -1,7 +1,7 @@
 @extends('layouts.general')
 
 @section('my-content')
-<div style="text-align: center" class="col-md-12">
+<div style="text-align: center; margin-top: -20px" class="col-md-12">
     <p style="font-size: 18px; margin-bottom: -10px">While we wait for <a href="https://www.grc.com/sqrl/sqrl.htm">SQRL</a> to release the 1.0 version, we've implemented a website and a <a href="https://play.google.com/store">mobile app</a> with different authentication factors to better understand how to achieve secure authentication.</p>
     <img src="./img/auth.png" style="width: 25%">
     <img src="./img/fido.png" style="width: 25%">
