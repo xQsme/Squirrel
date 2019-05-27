@@ -82,10 +82,11 @@ class ApiController extends Controller
 
     function register(Request $request)
     {
-        $valid = validator($request->only('email', 'name', 'password'), [
+        $valid = validator($request->only('email', 'name', 'password', 'pin'), [
             'name' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
+            'pin' => 'required|string|min:4|max:6'
         ]);
 
         if ($valid->fails()) {
@@ -98,7 +99,8 @@ class ApiController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password'])
+            'password' => bcrypt($data['password']),
+            'pin' => \Hash::make($data['pin']),
         ]);
 
         $jsonSuccess=response()->json('Registered', 200);
