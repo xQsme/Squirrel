@@ -11,26 +11,23 @@
 </div>
 @endsection
 <script>
-    window.onload=function()
-    {
-        replaceImage();
-    }
-    window.onresize = function(event)
-    {
-        replaceImage();
-    }
+    window.onload = replaceImage;
+    window.onresize = replaceImage;
     function replaceImage()
     {
         let image = document.getElementById("banner");
+        let image_slim = document.getElementById("banner-slim");
         if(image != null)
         {
             if(window.innerWidth/window.innerHeight > 1.5)
             {
-                image.src = "./img/banner-slim.jpg";
+                image.style.display="none";
+                image_slim.style.display="block";
             }
             else
             {
-                image.src = "./img/banner.jpg";
+                image.style.display="block";
+                image_slim.style.display="none";
             }
         }
     }

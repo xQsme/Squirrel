@@ -15,27 +15,21 @@
 </ul>
 @endsection
 <script>
-    window.onload=function()
-    {
-        replaceImage();
-    }
-    window.onresize = function(event)
-    {
-        replaceImage();
-    }
+    window.onload = replaceImage;
+    window.onresize = replaceImage;
     function replaceImage()
     {
         let image = document.getElementById("banner");
-        if(image != null)
+        let image_sec = document.getElementById("banner-sec");
+        if(window.innerWidth/window.innerHeight > 1.5)
         {
-            if(window.innerWidth/window.innerHeight > 1.5)
-            {
-                image.src = "./img/banner-sec.jpg";
-            }
-            else
-            {
-                image.src = "./img/banner.jpg";
-            }
+            image.style.display="none";
+            image_sec.style.display="block";
+        }
+        else
+        {
+            image.style.display="block";
+            image_sec.style.display="none";
         }
     }
 </script>
