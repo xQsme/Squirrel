@@ -144,6 +144,7 @@ class ApiController extends Controller
         $code = str_random(10);
         $user = \Auth::user();
         $user->email_code = \Hash::make($code);
+        $user->email_time = Carbon::now();
         $user->save();
         $data['code'] = $code;
         \Mail::send(['text'=>'mail'], $data, function($message) {
@@ -157,6 +158,11 @@ class ApiController extends Controller
 
     function validateEmail()
     {
+        if(Carbon::parse(\Auth::user()->email_time)->diffInMinutes(Carbon::now()) > 10)
+        {
+            $jsonError=response()->json('10 minute window expired for code.', 400);
+            return $jsonError;
+        }
         if(\Hash::check(request('code'), \Auth::user()->email_code))
         {
             $login = new Login();
@@ -170,7 +176,7 @@ class ApiController extends Controller
             $jsonSuccess=response()->json('Authenticated', 200);
             return $jsonSuccess;
         }
-        $jsonError=response()->json('Failed', 400);
+        $jsonError=response()->json('Wrong Code.', 400);
         return $jsonError;
     }
 

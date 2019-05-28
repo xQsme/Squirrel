@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Login;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -24,6 +25,7 @@ class EmailController extends Controller
         $code = str_random(20);
         $user = \Auth::user();
         $user->email_temp_code = \Hash::make($code);
+        $user->email_time = Carbon::now();
         $user->save();
         $data['code'] = $code;
         \Mail::send(['text'=>'mail'], $data, function($message) {
@@ -36,6 +38,11 @@ class EmailController extends Controller
 
     public function complete(Request $request)
     {
+        if(Carbon::parse(\Auth::user()->email_time)->diffInMinutes(Carbon::now()) > 10)
+        {
+            $message = ['message_error' => 'Code 10 minute window expired.'];
+            return redirect()->back()->with($message);
+        }
         if(\Hash::check($request->code, \Auth::user()->email_temp_code))
         {
             $user = \Auth::user();
@@ -61,6 +68,11 @@ class EmailController extends Controller
     function authenticate(Request $request)
     {
         $user = \Auth::user();
+        if(Carbon::parse(\Auth::user()->email_time)->diffInMinutes(Carbon::now()) > 10)
+        {
+            $message = ['message_error' => 'Code 10 minute window expired.'];
+            return redirect()->back()->with($message);
+        }
         if(\Hash::check($request->code, \Auth::user()->email_code))
         {
             $login = new Login();
@@ -70,8 +82,10 @@ class EmailController extends Controller
             $user->email_authenticated = true;
             $user->email_code = \Hash::make(str_random(20));
             $user->save();
+            return redirect()->route('home');
         }
-        return redirect()->route('home');
+        $message = ['message_error' => 'Wrong code.'];
+        return redirect()->back()->with($message);
     }
 
     function email()
@@ -80,6 +94,7 @@ class EmailController extends Controller
         $code = str_random(10);
         $user = \Auth::user();
         $user->email_code = \Hash::make($code);
+        $user->email_time = Carbon::now();
         $user->save();
         $data['code'] = $code;
         \Mail::send(['text'=>'mail'], $data, function($message) {

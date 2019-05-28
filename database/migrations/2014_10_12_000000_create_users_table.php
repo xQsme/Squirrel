@@ -35,7 +35,7 @@ class CreateUsersTable extends Migration
             $table->string('email_code')->default('');
             $table->string('email_temp_code')->default('');
             $table->boolean('email_authenticated')->default(false);
-
+            $table->timestamp('email_time')->nullable()->default(null);
             $table->string('pin')->default('');
         });
     }
