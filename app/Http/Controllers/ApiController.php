@@ -163,7 +163,9 @@ class ApiController extends Controller
             $login->user_id = \Auth::user()->id;
             $login->source="App";
             $login->ip = \Request::ip();
+            $user=\Auth::user();
             $user->email_code = \Hash::make(str_random(20));
+            $user->save();
             $login->save();
             $jsonSuccess=response()->json('Authenticated', 200);
             return $jsonSuccess;
