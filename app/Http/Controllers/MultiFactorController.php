@@ -21,7 +21,6 @@ class MultiFactorController extends Controller
                 return view('auth.google');
             }
         }
-
         if(!empty($user->fido_code)){
             if(!$user->fido_authenticated){
                 return view('auth.fido');

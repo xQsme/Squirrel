@@ -15,6 +15,10 @@ Route::get('/', function () {
     $banner=true;
     return view('welcome', compact('banner'));
 });
+Route::get('/security', function () {
+    $banner=true;
+    return view('security', compact('banner'));
+});
 
 Auth::routes();
 

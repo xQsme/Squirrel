@@ -39,14 +39,14 @@ class EmailController extends Controller
         if(\Hash::check($request->code, \Auth::user()->email_temp_code))
         {
             $user = \Auth::user();
-            $user->email_code = \Hash::make($request->code);
+            $user->email_code = \Hash::make(str_random(20));
             $user->email_authenticated = true;
             $user->save();
             $message = ['message_success' => 'E-Mail Authentication Set Up'];
             return redirect()->route('settings')->with($message);
         }
         $message = 'Wrong Code';
-        return view('2fa.email-confirm', compact('message'));
+        return view('2fa.email', compact('message'));
     }
 
     public function deactivate()
@@ -67,7 +67,8 @@ class EmailController extends Controller
             $login->user_id = $user->id;
             $login->ip = \Request::ip();
             $login->save();
-            $user->email_authenticated=true;
+            $user->email_authenticated = true;
+            $user->email_code = \Hash::make(str_random(20));
             $user->save();
         }
         return redirect()->route('home');

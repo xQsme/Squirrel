@@ -7,7 +7,7 @@
     <img src="./img/fido.png" style="width: 25%">
     <img src="./img/mail.png" style="width: 25%">
     <p style="font-size: 18px; margin-top: -5px">So far we've implemented authenticator support, we're working on FIDO support, and we also have e-mail authentication.</p>
-    <p style="font-size: 18px; margin-top: -16px">Feel free to register and try out our website and app, we have taken every measure we could to ensure the user's security.</p>
+    <p style="font-size: 18px; margin-top: -16px">Feel free to register and try out our website and app, we have taken every <a href="{{ url('/security') }}">measure</a> we could to ensure the user's security.</p>
 </div>
 @endsection
 <script>

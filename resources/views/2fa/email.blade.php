@@ -1,6 +1,12 @@
 @extends('layouts.general')
 
 @section('my-content')
+@if(isset($message))
+    <div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{$message}}
+    </div>
+@endif
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -9,7 +15,7 @@
                 <div class="card-body" style="text-align:center">
                     <p style="margin-bottom: -2%">Press the image to send the E-Mail code to {{\Auth::user()->email}}</p>
                     <a href="#" onClick="sendMail()"><img src="./img/mail.png" style="width: 50%"></a>
-                    <p id="show" style="margin-top: -2%; display: none">E-Mail sent! Please type the code we sent you to  below:</p>
+                    <p id="show" style="margin-top: -2%; display: none;">E-Mail sent! Please type the code we sent you below:</p>
                     <form action="{{route('email-complete')}}" class="form-group form-inline" method="post" style>
                         {{csrf_field()}}
                         <input type="text" name="code" class="form-control col-md-5" placeholder="E-Mail Code">

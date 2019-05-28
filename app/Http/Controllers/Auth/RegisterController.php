@@ -54,7 +54,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'pin' => ['required', 'string', 'min:4', 'max:6'],
+            'pin' => ['required', 'string', 'min:4', 'max:6', 'confirmed'],
         ]);
     }
 
@@ -80,7 +80,7 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        $this->guard()->login($user, true); //remember
+        $this->guard()->login($user);
         $user->session = \Session::getId();
         $user->save();
         return $this->registered($request, $user)

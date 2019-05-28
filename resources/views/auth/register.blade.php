@@ -65,12 +65,20 @@
                             <label for="pin" class="col-md-4 col-form-label text-md-right">{{ __('Pin Code') }}</label>
 
                             <div class="col-md-6">
-                                <input id="pin" type="text" class="form-control @error('pin') is-invalid @enderror" name="pin" required>
+                                <input id="pin" type="password" class="form-control @error('pin') is-invalid @enderror" name="pin" required>
                                 @error('pin')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="pin-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Pin') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="pain-confirm" type="password" class="form-control" name="pin_confirmation" required>
                             </div>
                         </div>
 
