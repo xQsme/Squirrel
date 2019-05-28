@@ -10,7 +10,7 @@
                     <img src="./img/lock.png" style="width: 50%; padding-bottom:20px">
                     <form action="{{route('validatePin')}}" class="form-group form-inline" method="post" style>
                         {{csrf_field()}}
-                        <input type="number" name="code" class="form-control col-md-5" placeholder="Pin Code">
+                        <input type="password" name="code" class="form-control col-md-5" placeholder="Pin Code">
                         <div class="col-md-2"></div>
                         <button type="submit" class="btn btn-primary col-md-5">Authenticate</button>
                     </form>
