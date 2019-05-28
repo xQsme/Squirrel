@@ -68,6 +68,8 @@
     </nav>
     @if(isset($banner))
         <img id="banner" src="./img/banner.jpg" class="banner">
+        <img style="display: none" src="./img/banner-sec.jpg" class="banner">
+        <img style="display: none" src="./img/banner-slim.jpg" class="banner">
     @endif
     <main class="py-4">
         @yield('content')
