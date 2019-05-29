@@ -3,34 +3,87 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Firehed\U2F\Server;
+use Firehed\U2F\RegisterResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Session;
 
 class FIDOController extends Controller
 {
+    public $server;
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->server = new Server();
+        $this->server->disableCAVerification()
+       ->setAppId('https://squirrel.test');
     }
 
     public function activate()
     {
-        return view('2fa.fido');
+        $request = $this->server->generateRegisterRequest();
+        $sign_requests = $this->server->generateSignRequests([]);
+        
+        $jsonRequest = json_encode($request, JSON_UNESCAPED_SLASHES);
+        Session::put('request', $request);
+       
+        $jsonSignRequests = json_encode(array_values($sign_requests));
+
+        return view('2fa.fido', compact('jsonRequest', 'jsonSignRequests'));
     }
 
-    public function complete()
+    public function complete(Request $request)
     {
-        $ga = new GoogleAuthenticator();
-        if($ga->verifyCode($request->secret, $request->code, 2))
-        {
-            $user = \Auth::user();
-            $user->google2fa_secret = $request->secret;
-            $user->save();
-            $message = ['message_success' => 'Google Authenticator Set Up'];
-            return redirect()->route('settings')->with($message);
+        $request = $this->server->generateRegisterRequest();
+
+        
+
+        $sign_requests = $this->server->generateSignRequests([]);
+        dd($request);
+
+    }
+
+    public function signature(Request $request){
+        $user = Auth::user();
+        $u2fRequestJson = $request->input('jsonRequest');
+        $u2fSignatureJson = $request->input('jsonSignature');      
+        
+        $this->server->setRegisterRequest(Session::get('request'));
+
+        $u2fSignature = json_decode($u2fSignatureJson);
+        $u2fSignature->cid_pubkey = 'unused';
+        $u2fSignatureJson = json_encode($u2fSignature);
+        
+        $resp = RegisterResponse::fromJson($u2fSignatureJson ?? '');
+            
+
+        // Attempt to register with parsed response
+        $registration = $this->server->register($resp);
+
+        // Store Registration alongside user
+        $kha = substr($registration->getKeyHandleWeb(), 0, 10);
+        $data['registrations'][$kha] = $registration;
+        write_user_data($user, $data);
+
+        // Return some JSON for the AJAX handler to use
+        echo json_encode($_SESSION);
+
+        try {
+            
+
+            // Parse response JSON
+            
+            
+            
+        } catch (SecurityException $e) {
+            dd($e);
+        } catch (InvalidDataException $e) {
+            dd($e);
+        } catch (\Throwable $e) {
+            dd($e);
         }
-        $secret = $request->secret;
-        $qrCode = $ga->getQRCodeGoogleUrl('Squirrel', $secret);
-        $message = 'Wrong One Time Code';
-        return view('2fa.fido', compact('secret', 'qrCode', 'message'));
     }
 
     public function deactivate()

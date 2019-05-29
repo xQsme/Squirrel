@@ -75,5 +75,6 @@
 </div>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/u2f-api.js') }}"></script>
 </body>
 </html>
