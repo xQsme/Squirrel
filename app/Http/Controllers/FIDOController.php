@@ -17,7 +17,7 @@ class FIDOController extends Controller
     {
         $this->middleware('auth');
         $this->server = new Server();
-        $this->server->disableCAVerification()
+        $this->server->setTrustedCAs(glob('certs/yubico.PEM'))
        ->setAppId('https://squirrel.test');
     }
 
@@ -49,12 +49,14 @@ class FIDOController extends Controller
         $user = Auth::user();
         $u2fRequestJson = $request->input('jsonRequest');
         $u2fSignatureJson = $request->input('jsonSignature');      
+
+
         
         $this->server->setRegisterRequest(Session::get('request'));
 
         $u2fSignature = json_decode($u2fSignatureJson);
-        $u2fSignature->cid_pubkey = 'unused';
-        $u2fSignatureJson = json_encode($u2fSignature);
+
+     //   dd($_POST, $this->server);
         
         $resp = RegisterResponse::fromJson($u2fSignatureJson ?? '');
             
