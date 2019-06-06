@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use WebAuthn\WebAuthn;
+use App\Login;
 use Illuminate\Support\Facades\Log;
 use Session;
 use Illuminate\Http\Request;
@@ -143,6 +144,11 @@ class FIDOController extends Controller
         $return = new \stdClass();
         $return->success = true;
 
+        $login = new Login();
+        $login->user_id = $user->id;
+        $login->ip = \Request::ip();
+        $login->save();
+        
         $loggedOnUser->fido_authenticated = true;
         $loggedOnUser->save();
 
