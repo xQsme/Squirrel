@@ -81,6 +81,10 @@ class FIDOController extends Controller
         $fidoAuthenticationMethod->user()->associate($loggedOnUser);
         $fidoAuthenticationMethod->save();
 
+        $loggedOnUser->fido_authenticated = true;
+        $loggedOnUser->fido_code = 1;
+        $loggedOnUser->save();
+
         $return = new \stdClass();
         $return->success = true;
         $return->msg = 'Registration Success.';
@@ -88,6 +92,62 @@ class FIDOController extends Controller
         print(json_encode($return));
     }
 
+    public function getGetArgs(Request $request) {
+        $ids = array();
+        $loggedOnUser = \Auth::user();
+        $userFidoAuthMethods = $loggedOnUser->fidoAuthenticationMethods;
+
+        // load registrations from session stored there by processCreate.
+        // normaly you have to load the credential Id's for a username
+        // from the database.
+        if (is_a($userFidoAuthMethods, 'Illuminate\Database\Eloquent\Collection')) {
+            foreach ($userFidoAuthMethods as $reg) {
+                $ids[] = $reg->credentialId;
+            }
+        }
+        if (count($ids) === 0) {
+            throw new \Exception('no registrations in session.');
+        }
+
+        $getArgs = $this->WebAuthn->getGetArgs($ids);
+        Session::put('challenge', $this->WebAuthn->getChallenge());
+        print(json_encode($getArgs));
+        // save challange to session. you have to deliver it to processGet later.
+    }
+
+    public function processGet(Request $request) {
+        $clientDataJSON = base64_decode($request->input('clientDataJSON'));
+        $authenticatorData = base64_decode($request->input('authenticatorData'));
+        $signature = base64_decode($request->input('signature'));
+        $id = base64_decode($request->input('id'));
+        $challenge = Session::get('challenge');
+        $credentialPublicKey = null;
+
+        // looking up correspondending public key of the credential id
+        // you should also validate that only ids of the given user name are taken for the login.
+        $loggedOnUser = \Auth::user();
+        $userFidoAuthMethods = $loggedOnUser->fidoAuthenticationMethods;
+        if (is_a($userFidoAuthMethods, 'Illuminate\Database\Eloquent\Collection')) {
+            foreach ($userFidoAuthMethods as $reg) {
+                if ($reg->credentialId === $id) {
+                    $credentialPublicKey = $reg->credentialPublicKey;
+                    break;
+                }
+            }
+        }
+        if ($credentialPublicKey === null) {
+            throw new \Exception('Public Key for credential ID not found!');
+        }
+        // process the get request. throws WebAuthnException if it fails
+        $this->WebAuthn->processGet($clientDataJSON, $authenticatorData, $signature, $credentialPublicKey, $challenge);
+        $return = new \stdClass();
+        $return->success = true;
+
+        $loggedOnUser->fido_authenticated = true;
+        $loggedOnUser->save();
+
+        print(json_encode($return));
+    }
 
     public function deactivate()
     {

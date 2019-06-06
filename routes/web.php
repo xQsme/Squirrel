@@ -42,7 +42,9 @@ Route::post('/email-authenticate', 'EmailController@authenticate')->name('email-
 Route::middleware('multi_factor_authentication')->get('/fido-activate', 'FIDOController@activate')->name('fido-activate');
 Route::middleware('multi_factor_authentication')->get('/getCreateArgs', 'FIDOController@getCreateArgs')->name('getCreateArgs');
 Route::middleware('multi_factor_authentication')->post('/processCreate', 'FIDOController@processCreate')->name('processCreate');
-Route::middleware('multi_factor_authentication')->get('/fido-deactivate', 'FIDOController@deactivate')->name('fido-deactivate');
+Route::middleware('multi_factor_authentication')->post('/processCreate', 'FIDOController@processCreate')->name('processCreate');
+Route::get('/getGetArgs', 'FIDOController@getGetArgs')->name('fido-getGetArgs');
+Route::post('/processGet', 'FIDOController@processGet')->name('fido-processGet');
 
 Route::middleware('multi_factor_authentication')->get('/google-activate', 'GoogleController@activate')->name('google-activate');
 Route::middleware('multi_factor_authentication')->post('/google-complete', 'GoogleController@complete')->name('google-complete');
