@@ -145,7 +145,7 @@ class FIDOController extends Controller
         $return->success = true;
 
         $login = new Login();
-        $login->user_id = $user->id;
+        $login->user_id = $loggedOnUser->id;
         $login->ip = \Request::ip();
         $login->save();
         
