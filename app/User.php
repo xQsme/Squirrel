@@ -42,4 +42,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Login', 'user_id')->orderBy('created_at', 'desc');
     }
+
+    public function fidoAuthenticationMethods()
+    {
+        return $this->hasMany('App\FidoAuthenticationMethod', 'user_id')->orderBy('created_at', 'desc');
+    }
 }
