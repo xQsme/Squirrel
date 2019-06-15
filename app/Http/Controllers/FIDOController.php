@@ -158,9 +158,18 @@ class FIDOController extends Controller
     public function deactivate()
     {
         $user = \Auth::user();
-        $user->google2fa_secret = "";
+        $user->fido_code = "";
+        $user->fido_authenticated = 0;
+
+        $userFidoAuthMethods = $user->fidoAuthenticationMethods;
+        if (is_a($userFidoAuthMethods, 'Illuminate\Database\Eloquent\Collection')) {
+            foreach ($userFidoAuthMethods as $method) {
+                $method->delete();
+            }
+        }
         $user->save();
-        $message = ['message_success' => 'Google Authenticator Removed'];
+        $message = ['message_success' => 'Fido Authentication Removed'];
+
         return redirect()->route('settings')->with($message);
     }
 }
