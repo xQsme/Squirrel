@@ -39,7 +39,7 @@
         "classmap": [
             "database/seeds",
             "database/factories",
-            "vendor/WebAuthn"
+            "app/Classes/WebAuthn"
         ]
     },
     "autoload-dev": {
