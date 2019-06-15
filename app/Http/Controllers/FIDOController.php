@@ -144,10 +144,13 @@ class FIDOController extends Controller
         $return = new \stdClass();
         $return->success = true;
 
-        $login = new Login();
-        $login->user_id = $loggedOnUser->id;
-        $login->ip = \Request::ip();
-        $login->save();
+        if($user->email_code == '')
+        {
+            $login = new Login();
+            $login->user_id = $user->id;
+            $login->ip = \Request::ip();
+            $login->save();
+        }
         
         $loggedOnUser->fido_authenticated = true;
         $loggedOnUser->save();

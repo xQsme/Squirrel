@@ -29,12 +29,6 @@ class LogSuccessfulLogin
     {
         if(!\Auth::viaRemember())
         {
-            $user = \Auth::user();
-            $user->google_authenticated = false;
-            $user->fido_authenticated = false;
-            $user->sms_authenticated = false;
-            $user->email_authenticated = false;
-            $user->save();
             if($event->user->google_code == '' && $event->user->fido_code == '' && $event->user->email_code == '')
             {
                 $login = new Log();
