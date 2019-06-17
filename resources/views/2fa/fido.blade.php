@@ -85,7 +85,7 @@
         }).then(function(json) {
             if (json.success) {
                 window.alert(json.msg || 'registration success');
-                window.location.replace("https://sqrl.test/settings");
+                window.location.replace("https://squirrel-mcif.me/settings");
             } else {
                 throw new Error(json.msg);
             }

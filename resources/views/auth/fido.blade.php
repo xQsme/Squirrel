@@ -74,7 +74,7 @@
         }).then(function(json) {
             if (json.success) {
                 window.alert(json.msg || 'login success');
-                window.location.replace("https://sqrl.test/home");
+                window.location.replace("https://squirrel-mcif.me/home");
             } else {
                 throw new Error(json.msg);
             }
