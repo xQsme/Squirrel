@@ -139,6 +139,21 @@ class ApiController extends Controller
         return $jsonError;
     }
 
+    function fido()
+    {
+        $user = \Auth::user();
+        if($user->email_code == '')
+        {
+            $login = new Login();
+            $login->user_id = $user->id;
+            $login->source="App";
+            $login->ip = \Request::ip();
+            $login->save();
+        }
+        $jsonSuccess=response()->json('Authenticated', 200);
+        return $jsonSuccess;
+    }
+
     function email()
     {
         $data['content'] = "Squirrel confirmation code:";
