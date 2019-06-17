@@ -39,7 +39,7 @@ class FIDOController extends Controller
         
         // new Instance of the server library.
         // make sure that $rpId is the domain name.
-        $this->WebAuthn = new WebAuthn('SQRL', 'sqrl.test', $formats);
+        $this->WebAuthn = new WebAuthn('SQRL', 'squirrel-mcif.me', $formats);
         // add root certificates to validate new registrati
         $this->WebAuthn->addRootCertificates('rootCertificates/solo.pem');
         $this->WebAuthn->addRootCertificates('rootCertificates/yubico.pem');
@@ -144,10 +144,10 @@ class FIDOController extends Controller
         $return = new \stdClass();
         $return->success = true;
 
-        if($user->email_code == '')
+        if($loggedOnUser->email_code == '')
         {
             $login = new Login();
-            $login->user_id = $user->id;
+            $login->user_id = $loggedOnUser->id;
             $login->ip = \Request::ip();
             $login->save();
         }
