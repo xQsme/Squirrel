@@ -31,9 +31,9 @@ class FIDOController extends Controller
         // Formats
         $formats = array();
         $formats[] = 'android-key';   
-        $formats[] = 'android-safetynet';   
+        //$formats[] = 'android-safetynet';   
         $formats[] = 'fido-u2f';   
-        $formats[] = 'none';   
+        //$formats[] = 'none';   
         $formats[] = 'packed';   
         //$formats[] = 'tpm';
         

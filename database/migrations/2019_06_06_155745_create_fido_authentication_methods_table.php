@@ -22,7 +22,7 @@ class CreateFidoAuthenticationMethodsTable extends Migration
             //$data->certificate
             $table->text('certificate');
             //$data->signatureCounter
-            $table->integer('signatureCounter');
+            $table->integer('signatureCounter')->nullable();
             //$data->AAGUID
             $table->binary('AAGUID')->nullable();
             
