@@ -37,7 +37,7 @@
         }
         // get default args
         window.fetch('getCreateArgs', {method:'GET',cache:'no-cache'}).then(function(response) {
-            console.log(response)
+            //console.log(response)
             return response.json();
             // convert base64 to arraybuffer
         }).then(function(json) {
@@ -48,11 +48,11 @@
             // replace binary base64 data with ArrayBuffer. a other way to do this
             // is the reviver function of JSON.parse()
             recursiveBase64StrToArrayBuffer(json);
-            console.log(json);
+            //console.log(json);
             return json;
             // create credentials
         }).then(function(createCredentialArgs) {
-            console.log(createCredentialArgs);
+            //console.log(createCredentialArgs);
             return navigator.credentials.create(createCredentialArgs);
             // convert to base64
         }).then(function(cred) {
@@ -62,7 +62,7 @@
             };
             // transfer to server
         }).then(JSON.stringify).then(function(AuthenticatorAttestationResponse) {
-            console.log(AuthenticatorAttestationResponse)
+            //console.log(AuthenticatorAttestationResponse)
 
             //return window.fetch('processCreate', {method:'POST', body: AuthenticatorAttestationResponse, cache:'no-cache'});
             
@@ -79,7 +79,7 @@
             });
             // convert to JSON
         }).then(function(response) {
-            console.log(response)
+            //console.log(response)
             return response.json();
             // analyze response
         }).then(function(json) {

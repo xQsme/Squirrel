@@ -31,7 +31,7 @@
         }
         // get default args
         window.fetch('getGetArgs', {method:'GET',cache:'no-cache'}).then(function(response) {
-            console.log(response);
+            //console.log(response);
             return response.json();
             // convert base64 to arraybuffer
         }).then(function(json) {
