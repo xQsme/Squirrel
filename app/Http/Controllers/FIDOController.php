@@ -82,7 +82,7 @@ class FIDOController extends Controller
         $fidoAuthenticationMethod->user()->associate($loggedOnUser);
         $fidoAuthenticationMethod->save();
 
-        $loggedOnUser->fido_authenticated = true;
+        $loggedOnUser->authenticated = true;
         $loggedOnUser->fido_code = 1;
         $loggedOnUser->save();
 
@@ -152,7 +152,7 @@ class FIDOController extends Controller
             $login->save();
         }
         
-        $loggedOnUser->fido_authenticated = true;
+        $loggedOnUser->authenticated = true;
         $loggedOnUser->save();
 
         print(json_encode($return));
@@ -162,7 +162,7 @@ class FIDOController extends Controller
     {
         $user = \Auth::user();
         $user->fido_code = "";
-        $user->fido_authenticated = 0;
+        $user->authenticated = 0;
 
         $userFidoAuthMethods = $user->fidoAuthenticationMethods;
         if (is_a($userFidoAuthMethods, 'Illuminate\Database\Eloquent\Collection')) {

@@ -24,19 +24,21 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 
             $table->string('google_code')->default('');
-            $table->boolean('google_authenticated')->default(false);
+            //$table->boolean('google_authenticated')->default(false);
 
             $table->string('fido_code')->default('');
-            $table->boolean('fido_authenticated')->default(false);
+            //$table->boolean('fido_authenticated')->default(false);
 
             $table->string('sms_code')->default('');
-            $table->boolean('sms_authenticated')->default(false);
+            //$table->boolean('sms_authenticated')->default(false);
 
             $table->string('email_code')->default('');
             $table->string('email_temp_code')->default('');
-            $table->boolean('email_authenticated')->default(false);
+            //$table->boolean('email_authenticated')->default(false);
             $table->timestamp('email_time')->nullable()->default(null);
             $table->string('pin')->default('');
+
+            $table->boolean('authenticated')->default(false);
         });
     }
 

@@ -43,10 +43,13 @@ class LoginController extends Controller
     {
         if(!\Auth::viaRemember()){
             $user = \Auth::user();
+            /*
             $user->google_authenticated = false;
             $user->fido_authenticated = false;
             $user->sms_authenticated = false;
             $user->email_authenticated = false;
+            */
+            $user->authenticated = false;
         }
         $user->session = \Session::getId();
         $user->save();
@@ -67,10 +70,13 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $user = Auth::user();
+        /*
         $user->google_authenticated = false;
         $user->fido_authenticated = false;
         $user->sms_authenticated = false;
         $user->email_authenticated = false;
+        */
+        $user->authenticated = false;
         $user->save();
 
         $this->guard()->logout();

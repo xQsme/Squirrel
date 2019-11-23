@@ -18,30 +18,14 @@ class MultiFactorAuthentication
     {
         $user = auth()->user();
 
-        if(!empty($user->google_code)){
-            if(!$user->google_authenticated){
-                return redirect()->route('multi-factor');
-            }
-        }
-
-        if(!empty($user->fido_code)){
-            if(!$user->fido_authenticated){
-                return redirect()->route('multi-factor');
-            }
-        }
-        if(!empty($user->email_code)){
-            if(!$user->email_authenticated){
-                return redirect()->route('multi-factor');
-            }
-        }
-        if(!empty($user->sms_code)){
-            if(!$user->sms_authenticated){
+        if(!empty($user->google_code) || !empty($user->fido_code) || !empty($user->email_code) || !empty($user->sms_code)){
+            if(!$user->authenticated){
                 return redirect()->route('multi-factor');
             }
         }
 
         if($user->session != \Session::getId()){
-            return redirect()->route('multi-factor');
+            return view('auth.pin');
         }
 
         return $next($request);    

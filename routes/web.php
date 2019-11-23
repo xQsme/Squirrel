@@ -56,3 +56,5 @@ Route::middleware('multi_factor_authentication')->get('/sms-activate', 'SMSContr
 Route::middleware('multi_factor_authentication')->get('/sms-deactivate', 'SMSController@deactivate')->name('sms-deactivate');
 
 Route::middleware('multi_factor_authentication')->get('/authenticated', 'HomeController@authenticated')->name('authenticated');
+
+Route::get('/mfa-authentication/{method}', 'MultiFactorController@getAuthenticationView')->name('get-auth-view');

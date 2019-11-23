@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">FIDO Authenticator</div>
                 <div class="card-body" style="text-align:center">
-                    <img src="./img/fido.png" style="width: 50%">
+                    <img src="/img/fido.png" style="width: 50%">
                     <div id="fido-div" class="form-group form-inline">
                         {{csrf_field()}}
                         <button type="button" onclick="checkregistration()" class="btn btn-primary col-md-5 mx-auto mt-3">Click here to authenticate yourself</button>

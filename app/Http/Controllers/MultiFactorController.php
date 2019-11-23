@@ -15,8 +15,15 @@ class MultiFactorController extends Controller
 
     public function index()
     {
+
         $user = \Auth::user();
-        if(!empty($user->google_code)){
+        
+        if(!$user->authenticated){
+            return view('auth.authSelector', ['user' => $user]);
+        }
+        
+        /*
+        if(!empty($useremail->google_code)){
             if(!$user->google_authenticated){
                 return view('auth.google');
             }
@@ -39,7 +46,33 @@ class MultiFactorController extends Controller
         if($user->session != \Session::getId()){
             return view('auth.pin');
         }
+        */
         return redirect()->route('home');
+    }
+
+    public function getAuthenticationView($method){
+
+        $user = \Auth::user();
+
+        if($method == "google" && !empty($user->google_code)){
+            return view('auth.google');
+        }
+    
+        if($method == "fido" && !empty($user->fido_code)){
+            return view('auth.fido');
+        }
+    
+    
+        if($method == "email" && !empty($user->email_code)){
+            return view('auth.email');
+        }
+    
+    
+        if($method == "sms" && !empty($user->sms_code)){
+            return view('auth.sms');
+        }
+
+        abort(403, 'Unauthorized action.');
     }
 
     public function validatePin(Request $request)

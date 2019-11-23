@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">Google Authenticator</div>
                 <div class="card-body" style="text-align:center">
-                    <img src="./img/auth.png" style="width: 50%; padding-bottom:20px">
+                    <img src="/img/auth.png" style="width: 50%; padding-bottom:20px">
                     <form action="{{route('google-authenticate')}}" class="form-group form-inline" method="post" style>
                         {{csrf_field()}}
                         <input type="number" name="code" class="form-control col-md-5" placeholder="Authenticator Code">

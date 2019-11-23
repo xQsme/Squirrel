@@ -47,7 +47,7 @@ class EmailController extends Controller
         {
             $user = \Auth::user();
             $user->email_code = \Hash::make(str_random(20));
-            $user->email_authenticated = true;
+            $user->authenticated = true;
             $user->save();
             $message = ['message_success' => 'E-Mail Authentication Set Up'];
             return redirect()->route('settings')->with($message);
@@ -79,7 +79,7 @@ class EmailController extends Controller
             $login->user_id = $user->id;
             $login->ip = \Request::ip();
             $login->save();
-            $user->email_authenticated = true;
+            $user->authenticated = true;
             $user->email_code = \Hash::make(str_random(20));
             $user->save();
             return redirect()->route('home');
