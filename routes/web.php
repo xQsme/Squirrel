@@ -24,6 +24,7 @@ Auth::routes();
 
 Route::get('/multi-factor', 'MultiFactorController@index')->name('multi-factor');
 
+Route::get('/pin', 'MultiFactorController@authPin')->name('auth-pin');
 Route::post('/validatePin', 'MultiFactorController@validatePin')->name('validatePin');
 Route::get('/forgotPin', 'MultiFactorController@forgotPin')->name('forgot-pin');
 Route::middleware('multi_factor_authentication')->get('/changePin', 'MultiFactorController@changePin')->name('change-pin');

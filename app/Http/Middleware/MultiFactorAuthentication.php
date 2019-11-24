@@ -25,7 +25,7 @@ class MultiFactorAuthentication
         }
 
         if($user->session != \Session::getId()){
-            return view('auth.pin');
+            return redirect()->route('auth-pin');
         }
 
         return $next($request);    

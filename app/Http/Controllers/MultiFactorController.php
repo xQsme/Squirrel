@@ -43,9 +43,11 @@ class MultiFactorController extends Controller
                 return view('auth.sms');
             }
         }
+
         if($user->session != \Session::getId()){
             return view('auth.pin');
         }
+
         */
         return redirect()->route('home');
     }
@@ -86,6 +88,11 @@ class MultiFactorController extends Controller
         return redirect()->route('home');
     }
 
+    public function authPin()
+    {
+        return view('auth.pin');
+    }
+
     public function changePin()
     {
         return view('pin');
@@ -108,6 +115,12 @@ class MultiFactorController extends Controller
     public function forgotPin()
     {
         $user = \Auth::user();
+        if(empty($user->google_code) && empty($user->fido_code) && 
+        empty($user->email_code) && empty($user->sms_code))
+        {
+            \Auth::logout();
+            return redirect('/login');
+        }
         $user->session=\Session::getId();
         $user->google_authenticated = false;
         $user->fido_authenticated = false;
