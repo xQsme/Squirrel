@@ -77,7 +77,7 @@ class FIDOController extends Controller
         $fidoAuthenticationMethod->credentialId = $data->credentialId;
         $fidoAuthenticationMethod->credentialPublicKey = $data->credentialPublicKey;
         $fidoAuthenticationMethod->certificate = $data->certificate;
-        $fidoAuthenticationMethod->signatureCounter = encrypt($data->signatureCounter);
+        $fidoAuthenticationMethod->signatureCounter = $data->signatureCounter;
         $fidoAuthenticationMethod->AAGUID = $data->AAGUID;
         $fidoAuthenticationMethod->user()->associate($loggedOnUser);
         $fidoAuthenticationMethod->save();
