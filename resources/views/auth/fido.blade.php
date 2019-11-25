@@ -30,7 +30,7 @@
             return;
         }
         // get default args
-        window.fetch('getGetArgs', {method:'GET',cache:'no-cache'}).then(function(response) {
+        window.fetch('https://squirrel-mcif.me/getGetArgs', {method:'GET',cache:'no-cache'}).then(function(response) {
             //console.log(response);
             return response.json();
             // convert base64 to arraybuffer
@@ -56,7 +56,7 @@
             };
             // transfer to server
         }).then(JSON.stringify).then(function(AuthenticatorAttestationResponse) {
-            return window.fetch("processGet", {
+            return window.fetch("https://squirrel-mcif.me/processGet", {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
